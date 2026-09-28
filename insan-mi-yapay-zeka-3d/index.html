@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#fff3e0">
+  <title>İnsan mı, Yapay Zekâ mı? • 3D Eğlenceli Keşif Oyunu</title>
+  <meta name="description" content="6 yaş grubu için 3 boyutlu, sesli ve eğlenceli yapay zekâ okuryazarlığı sınıflandırma oyunu.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Arka plan yüzen 3D sevimli balonlar -->
+  <div class="bg-decorations" aria-hidden="true">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="bubble bubble-4"></div>
+    <div class="star-dec star-1">★</div>
+    <div class="star-dec star-2">✨</div>
+    <div class="star-dec star-3">⭐</div>
+  </div>
+
+  <!-- Konfeti Efekti Katmanı -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <main class="shell">
+    <!-- Üst Başlık ve Kontroller -->
+    <header class="game-header">
+      <div class="logo-group">
+        <div class="brand-logo-wrap" title="Bilfen Eğitim Kurumları">
+          <img src="bilfen-logo.png" alt="Bilfen Eğitim Kurumları" class="brand-logo-img">
+        </div>
+        <div class="header-titles">
+          <p class="eyebrow-3d">🎮 KEŞFET • DÜŞÜN • EĞLEN</p>
+          <h1 class="game-title">İnsan mı, Yapay Zekâ mı?</h1>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button id="soundBtn" class="toy-btn icon-toy-btn" aria-label="Sesi aç veya kapat" title="Ses">
+          <span class="sound-icon-on">🔊</span>
+          <span class="sound-icon-off">🔇</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- GİRİŞ EKRANI (3D Karakterler & Başla Butonu) -->
+    <section id="intro" class="screen-card intro-screen">
+      <div class="intro-school-badge">
+        <img src="bilfen-logo.png" alt="Bilfen Eğitim Kurumları Logo" class="intro-logo-img">
+      </div>
+
+      <div class="floating-mascots">
+        <!-- 3D İnsan Çocuk Karakteri -->
+        <div class="mascot-card human-mascot" id="mascotHumanIntro">
+          <div class="mascot-avatar-3d">
+            <svg viewBox="0 0 160 160" class="avatar-svg" aria-label="Sevimli Çocuk Karakteri">
+              <defs>
+                <radialGradient id="hFaceGrad" cx="40%" cy="35%" r="65%">
+                  <stop offset="0%" stop-color="#ffe3cf" />
+                  <stop offset="70%" stop-color="#f8be98" />
+                  <stop offset="100%" stop-color="#e29b71" />
+                </radialGradient>
+                <linearGradient id="hHairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#7a431d" />
+                  <stop offset="100%" stop-color="#462208" />
+                </linearGradient>
+                <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#ff6b6b" flood-opacity="0.3" />
+                </filter>
+              </defs>
+              <!-- Saç arkası -->
+              <circle cx="80" cy="80" r="62" fill="url(#hHairGrad)" />
+              <!-- Yüz -->
+              <ellipse cx="80" cy="88" rx="50" ry="46" fill="url(#hFaceGrad)" />
+              <!-- Ön saç / kahkül -->
+              <path d="M 36 70 C 45 42, 75 35, 80 48 C 88 35, 118 42, 124 70 C 110 58, 95 62, 80 58 C 65 62, 50 58, 36 70 Z" fill="url(#hHairGrad)" />
+              <!-- Kulaklar -->
+              <ellipse cx="28" cy="88" rx="8" ry="12" fill="#f8be98" />
+              <ellipse cx="132" cy="88" rx="8" ry="12" fill="#f8be98" />
+              <!-- Gözler (Blink Animasyonlu) -->
+              <g class="anim-eyes">
+                <circle cx="62" cy="86" r="7" fill="#2d1607" />
+                <circle cx="60" cy="84" r="2.5" fill="#ffffff" />
+                <circle cx="98" cy="86" r="7" fill="#2d1607" />
+                <circle cx="96" cy="84" r="2.5" fill="#ffffff" />
+              </g>
+              <!-- Sevimli Pembe Yanaklar -->
+              <ellipse cx="50" cy="98" rx="10" ry="6" fill="#ff7f7f" opacity="0.55" />
+              <ellipse cx="110" cy="98" rx="10" ry="6" fill="#ff7f7f" opacity="0.55" />
+              <!-- Gülümseyen Ağız -->
+              <path d="M 67 98 Q 80 114 93 98" fill="none" stroke="#682405" stroke-width="4.5" stroke-linecap="round" />
+              <!-- Minik Burun -->
+              <ellipse cx="80" cy="92" rx="3.5" ry="2.5" fill="#df8c5c" />
+              <!-- Canlı Kalp Rozeti -->
+              <g transform="translate(100, 115) scale(0.9)" class="beating-heart">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#ff4757" filter="url(#softGlow)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="mascot-tag">
+            <span class="tag-title human-text">İNSAN</span>
+            <span class="tag-sub">❤️ Canlı, hisseder, büyür!</span>
+          </div>
+        </div>
+
+        <div class="versus-3d">
+          <span class="vs-bubble">VS</span>
+        </div>
+
+        <!-- 3D Yapay Zekâ Robot Karakteri -->
+        <div class="mascot-card ai-mascot" id="mascotAiIntro">
+          <div class="mascot-avatar-3d">
+            <svg viewBox="0 0 160 160" class="avatar-svg" aria-label="Sevimli Robot Karakteri">
+              <defs>
+                <linearGradient id="botBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#48dbfb" />
+                  <stop offset="50%" stop-color="#0abde3" />
+                  <stop offset="100%" stop-color="#008cb0" />
+                </linearGradient>
+                <linearGradient id="botScreenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#1e272e" />
+                  <stop offset="100%" stop-color="#2f3640" />
+                </linearGradient>
+                <radialGradient id="antennaGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#feca57" />
+                  <stop offset="100%" stop-color="#ff9f43" />
+                </radialGradient>
+                <filter id="neonCyan" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#00d2d3" flood-opacity="0.6" />
+                </filter>
+              </defs>
+              <!-- Anten Çubuğu & Parlayan Küre -->
+              <rect x="76" y="24" width="8" height="24" rx="4" fill="#008cb0" />
+              <circle cx="80" cy="20" r="12" fill="url(#antennaGlow)" class="antenna-bulb" />
+              <polygon points="80,12 83,18 78,18 81,25 76,21 79,21" fill="#fff" />
+              <!-- Kulak Cıvataları -->
+              <rect x="22" y="70" width="12" height="24" rx="6" fill="#feca57" />
+              <rect x="126" y="70" width="12" height="24" rx="6" fill="#feca57" />
+              <!-- Robot Kafası (Tombik 3D) -->
+              <rect x="30" y="44" width="100" height="82" rx="28" fill="url(#botBodyGrad)" />
+              <rect x="35" y="49" width="90" height="20" rx="10" fill="#ffffff" opacity="0.25" />
+              <!-- Ekran Yüzü -->
+              <rect x="42" y="58" width="76" height="54" rx="16" fill="url(#botScreenGrad)" />
+              <!-- LED Gözler (Parlayan Cyan) -->
+              <g class="bot-eyes" filter="url(#neonCyan)">
+                <ellipse cx="60" cy="78" rx="8" ry="10" fill="#00d2d3" />
+                <circle cx="62" cy="75" r="3" fill="#ffffff" />
+                <ellipse cx="100" cy="78" rx="8" ry="10" fill="#00d2d3" />
+                <circle cx="102" cy="75" r="3" fill="#ffffff" />
+              </g>
+              <!-- LED Gülümseme (Piksel / Çizgi) -->
+              <path d="M 68 96 Q 80 105 92 96" fill="none" stroke="#00d2d3" stroke-width="4.5" stroke-linecap="round" filter="url(#neonCyan)" />
+              <!-- Çip / Yıldız Rozeti -->
+              <g transform="translate(100, 115) scale(0.9)" class="ai-badge-pulse">
+                <circle cx="12" cy="12" r="10" fill="#feca57" />
+                <text x="12" y="16" text-anchor="middle" font-size="12" font-weight="900" fill="#222">⚡</text>
+              </g>
+            </svg>
+          </div>
+          <div class="mascot-tag">
+            <span class="tag-title ai-text">YAPAY ZEKÂ</span>
+            <span class="tag-sub">⚡ Akıllı bilgisayar ve robot!</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-content">
+        <h2 class="hero-text">Resme Bak, Sürükle veya Dokun!</h2>
+        <p class="hero-desc">Acaba bu sevimli özellik kime ait? İnsana mı, yapay zekâya mı?</p>
+        <button id="startBtn" class="toy-btn primary-3d-btn start-pulse">
+          <span class="btn-text">🚀 ETKİNLİĞE BAŞLA</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- OYUN ALANI (3D Kart ve 3D Hedef Kutuları) -->
+    <section id="game" class="screen-card game-screen hidden" aria-live="polite">
+      <!-- Üst Bilgi: İlerleme & Ses Tekrar -->
+      <div class="game-hud">
+        <div class="hud-stars">
+          <span class="star-icon">⭐</span>
+          <div class="progress-bar-3d">
+            <div id="progressBar" class="progress-fill"></div>
+          </div>
+          <span id="progressText" class="progress-count">1 / 16</span>
+        </div>
+
+        <button id="repeatBtn" class="toy-btn repeat-toy-btn" title="Soruyu tekrar dinle">
+          <span class="repeat-icon">🔊</span>
+          <span class="repeat-label">DİNLE</span>
+        </button>
+      </div>
+
+      <!-- Büyük Soru Başlığı (6 Yaş için Çok Açık ve Neşeli) -->
+      <div class="prompt-pill">
+        <span class="prompt-emoji">🧐</span>
+        <h2 id="promptText" class="prompt-question">Bu özellik kime ait?</h2>
+      </div>
+
+      <!-- 3D OYUN MASASI: SOL İNSAN KUTUSU | ORTA 3D KART | SAĞ YAPAY ZEKÂ KUTUSU -->
+      <div class="arena-3d">
+        <!-- SOL: 3D İNSAN KUTUSU -->
+        <div class="zone-box human-zone-3d" data-zone="human" id="humanZone" role="button" tabindex="0" aria-label="İnsan seçimi kutusu">
+          <div class="zone-pedestal">
+            <div class="zone-character-wrap">
+              <div class="character-human-avatar"></div>
+              <span class="zone-status-emoji">💓</span>
+            </div>
+            <div class="zone-label-wrap">
+              <span class="zone-title human-color">İNSAN</span>
+              <span class="zone-desc">Duyguları ve kalbi var</span>
+            </div>
+            <div class="zone-press-hint">👉 DOKUN</div>
+          </div>
+          <div class="zone-glow"></div>
+        </div>
+
+        <!-- ORTA: 3D DÖNEN VE YAYLANAN KART -->
+        <div class="card-stage" id="cardStage">
+          <!-- Sol & Sağ Yönlendirme İpuçları -->
+          <div class="drag-arrow left-arrow" aria-hidden="true">⬅️ İNSAN</div>
+          <div class="drag-arrow right-arrow" aria-hidden="true">YAPAY ZEKÂ ➡️</div>
+
+          <div id="card" class="card-3d" draggable="true" tabindex="0" role="button" aria-label="Soru Kartı: Sürükle veya tıkla">
+            <!-- 3D Parlama ve Derinlik Katmanı -->
+            <div class="card-shine" aria-hidden="true"></div>
+            
+            <div class="card-inner">
+              <div class="card-badge-category" id="cardCategory">ÖZELLİK KARTI</div>
+              
+              <!-- 3D Büyük İllüstrasyon / Görsel Alanı -->
+              <div id="cardImage" class="card-image-3d">
+                <!-- SVG / Sprite Buraya Yüklenecek -->
+              </div>
+
+              <!-- Kart Başlığı -->
+              <h3 id="cardTitle" class="card-title-3d">YEMEK YEMEK</h3>
+              <p id="cardDescription" class="card-subtitle-3d">Karnı acıkınca lezzetli yemekler yemek</p>
+
+              <!-- Eğlenceli Tut & Bırak Rozeti -->
+              <div class="card-footer-pill">
+                <span class="hand-anim">👆</span>
+                <span>KUTUYA SÜRÜKLE YA DA DOKUN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SAĞ: 3D YAPAY ZEKÂ KUTUSU -->
+        <div class="zone-box ai-zone-3d" data-zone="ai" id="aiZone" role="button" tabindex="0" aria-label="Yapay zekâ robotu seçimi kutusu">
+          <div class="zone-pedestal">
+            <div class="zone-character-wrap">
+              <div class="character-ai-avatar"></div>
+              <span class="zone-status-emoji">⚡</span>
+            </div>
+            <div class="zone-label-wrap">
+              <span class="zone-title ai-color">YAPAY ZEKÂ</span>
+              <span class="zone-desc">Bilgisayar ve robot</span>
+            </div>
+            <div class="zone-press-hint">DOKUN 👈</div>
+          </div>
+          <div class="zone-glow"></div>
+        </div>
+      </div>
+
+      <!-- Alt Geri Bildirim Balonu -->
+      <div id="feedback" class="feedback-3d" role="status">
+        <span id="feedbackEmoji" class="fb-emoji"></span>
+        <span id="feedbackMessage" class="fb-msg"></span>
+      </div>
+    </section>
+
+    <!-- TEBRİKLER / BİTİŞ EKRANI -->
+    <section id="finish" class="screen-card finish-screen hidden">
+      <div class="trophy-3d">
+        <span class="trophy-cup">🏆</span>
+        <div class="celebration-stars">
+          <span class="c-star star-left">⭐</span>
+          <span class="c-star star-center">🌟</span>
+          <span class="c-star star-right">⭐</span>
+        </div>
+      </div>
+
+      <h2 class="finish-title">Harikasın Minik Kaşif! 🎉</h2>
+      <p class="finish-desc">İnsanlar ile Yapay Zekânın farklarını süper bir şekilde öğrendin!</p>
+
+      <div class="score-card-3d">
+        <span class="score-badge">PUANIN</span>
+        <div class="score-number-wrap">
+          <strong id="scoreText">16 / 16</strong>
+        </div>
+        <span class="score-applause">Tüm soruları tamamladın! 🥳👏</span>
+      </div>
+
+      <button id="againBtn" class="toy-btn primary-3d-btn replay-pulse">
+        <span class="btn-text">🔄 YENİDEN OYNA</span>
+      </button>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,1003 @@
+/* ==========================================================================
+   İNSAN MI, YAPAY ZEKÂ MI? - 3D ÇOCUK OYUNU STİL DOSYASI (6 YAŞ ÖZEL)
+   Temalar: 3D Dokunsal Oyuncak (Claymorphic / Toy Aesthetic), Canlı Renkler
+   ========================================================================== */
+
+:root {
+  /* Renk Paleti (Canlı, Neşeli, Sıcak) */
+  --human-main: #ff6b6b;
+  --human-dark: #d63031;
+  --human-light: #fff0f0;
+  --human-shadow: #b32020;
+  
+  --ai-main: #00cec9;
+  --ai-dark: #0984e3;
+  --ai-light: #e6fcfa;
+  --ai-shadow: #007799;
+
+  --gold-main: #feca57;
+  --gold-dark: #ff9f43;
+  --gold-shadow: #ee5253;
+
+  --bg-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 35%, #a1c4fd 75%, #c2e9fb 100%);
+  --ink: #2d3436;
+  --white: #ffffff;
+
+  --radius-xl: 36px;
+  --radius-lg: 26px;
+  --radius-md: 18px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Fredoka', 'Nunito', 'Trebuchet MS', cursive, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--ink);
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Yüzen 3D Balonlar ve Yıldızlar */
+.bg-decorations {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.15));
+  box-shadow: inset 0 -6px 12px rgba(0, 0, 0, 0.05), 0 10px 25px rgba(255, 255, 255, 0.4);
+  animation: floatUp 12s infinite ease-in-out;
+}
+
+.bubble-1 { width: 140px; height: 140px; left: 4%; top: 15%; animation-duration: 9s; }
+.bubble-2 { width: 90px; height: 90px; right: 6%; top: 25%; animation-duration: 11s; animation-delay: 2s; }
+.bubble-3 { width: 180px; height: 180px; left: 80%; bottom: 10%; animation-duration: 14s; animation-delay: 1s; }
+.bubble-4 { width: 70px; height: 70px; left: 15%; bottom: 15%; animation-duration: 8s; animation-delay: 3s; }
+
+.star-dec {
+  position: absolute;
+  font-size: 28px;
+  animation: twinkle 3s infinite ease-in-out alternate;
+}
+.star-1 { left: 12%; top: 40%; font-size: 34px; color: #ffbe76; }
+.star-2 { right: 14%; top: 60%; font-size: 38px; color: #f9ca24; animation-delay: 1s; }
+.star-3 { left: 45%; top: 8%; font-size: 32px; color: #f0932b; animation-delay: 1.5s; }
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(8deg); }
+}
+
+@keyframes twinkle {
+  0% { transform: scale(0.8) rotate(-10deg); opacity: 0.5; }
+  100% { transform: scale(1.2) rotate(15deg); opacity: 1; }
+}
+
+/* Konfeti Canvas */
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Ana Taşıyıcı */
+.shell {
+  width: min(1120px, calc(100% - 24px));
+  margin: 0 auto;
+  padding: 16px 0 28px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Üst Başlık (Header) */
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Bilfen Logosu - Üst Başlık */
+.brand-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo-img {
+  height: 48px;
+  width: auto;
+  max-width: 145px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(2, 83, 159, 0.2));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand-logo-img:hover {
+  transform: scale(1.05) translateY(-2px);
+}
+
+/* Bilfen Logosu - Ana Ekran (Intro) */
+.intro-school-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.intro-logo-img {
+  height: 70px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(2, 83, 159, 0.22));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.intro-logo-img:hover {
+  transform: scale(1.06) translateY(-3px);
+}
+
+.eyebrow-3d {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #8395a7;
+  text-transform: uppercase;
+}
+
+.game-title {
+  font-size: clamp(20px, 3.2vw, 32px);
+  font-weight: 800;
+  color: #222f3e;
+  line-height: 1.1;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* 3D Tombul Butonlar (Toy Buttons) */
+.toy-btn {
+  font-family: inherit;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
+}
+
+.icon-toy-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffffff, #f1f2f6);
+  box-shadow: 0 5px 0 #ced6e0, 0 8px 15px rgba(0, 0, 0, 0.1);
+  font-size: 22px;
+}
+
+.icon-toy-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #ced6e0;
+}
+
+.icon-toy-btn .sound-icon-off { display: none; }
+.icon-toy-btn.muted .sound-icon-on { display: none; }
+.icon-toy-btn.muted .sound-icon-off { display: inline-block; }
+
+.primary-3d-btn {
+  padding: 16px 38px;
+  font-size: clamp(18px, 2.5vw, 24px);
+  border-radius: 28px;
+  background: linear-gradient(180deg, #10ac84, #1dd1a1);
+  color: #ffffff;
+  box-shadow: 0 8px 0 #0e7d60, 0 15px 25px rgba(29, 209, 161, 0.4);
+  letter-spacing: 0.5px;
+  margin-top: 15px;
+}
+
+.primary-3d-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 0 #0e7d60, 0 20px 30px rgba(29, 209, 161, 0.45);
+}
+
+.primary-3d-btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 2px 0 #0e7d60, 0 5px 10px rgba(29, 209, 161, 0.3);
+}
+
+/* Ana Ekran Kartı (Claymorphism Sahnesi) */
+.screen-card {
+  min-height: 560px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-xl);
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 20px 45px rgba(34, 47, 62, 0.12), inset 0 2px 6px rgba(255, 255, 255, 0.9);
+  padding: 30px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   GİRİŞ EKRANI (INTRO)
+   ========================================================================== */
+.floating-mascots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 25px;
+}
+
+.mascot-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 20px 14px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  border: 3px solid #f1f2f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.human-mascot {
+  border-color: #ffdcd8;
+  background: linear-gradient(180deg, #ffffff, #fff5f3);
+}
+
+.ai-mascot {
+  border-color: #c7f3f0;
+  background: linear-gradient(180deg, #ffffff, #f0fbfb);
+}
+
+.mascot-card:hover {
+  transform: translateY(-8px) scale(1.03);
+}
+
+.mascot-avatar-3d {
+  width: 130px;
+  height: 130px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.12));
+}
+
+.avatar-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.versus-3d {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vs-bubble {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #feca57, #ff9f43);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 0 6px 0 #ee5253, 0 10px 20px rgba(254, 202, 87, 0.5);
+  animation: pulseVersus 2s infinite ease-in-out;
+}
+
+@keyframes pulseVersus {
+  0%, 100% { transform: scale(1) rotate(-6deg); }
+  50% { transform: scale(1.14) rotate(6deg); }
+}
+
+.tag-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.human-text { color: var(--human-dark); }
+.ai-text { color: var(--ai-dark); }
+
+.tag-sub {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #576574;
+  margin-top: 4px;
+}
+
+.hero-text {
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 900;
+  color: #222f3e;
+  margin-bottom: 8px;
+}
+
+.hero-desc {
+  font-size: clamp(16px, 2.2vw, 20px);
+  color: #576574;
+  font-weight: 700;
+  max-width: 540px;
+  margin: 0 auto 12px;
+}
+
+/* Canlı Maskot Animasyonları */
+.beating-heart {
+  transform-origin: 12px 12px;
+  animation: heartPulse 1.2s infinite ease-in-out;
+}
+@keyframes heartPulse {
+  0%, 100% { transform: scale(0.9); }
+  50% { transform: scale(1.2); }
+}
+
+.antenna-bulb {
+  animation: bulbGlow 1.5s infinite alternate ease-in-out;
+}
+@keyframes bulbGlow {
+  0% { filter: drop-shadow(0 0 2px #feca57); }
+  100% { filter: drop-shadow(0 0 10px #ff9f43); }
+}
+
+/* ==========================================================================
+   OYUN ALANI (3D ARENA & KART)
+   ========================================================================== */
+.game-hud {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.hud-stars {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  max-width: 480px;
+}
+
+.star-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 4px 6px rgba(254, 202, 87, 0.5));
+  animation: spinSlow 8s linear infinite;
+}
+@keyframes spinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.progress-bar-3d {
+  flex: 1;
+  height: 22px;
+  background: #dfe6e9;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+  border: 3px solid #ffffff;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #feca57, #ff6b6b);
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.progress-count {
+  font-size: 16px;
+  font-weight: 900;
+  color: #222f3e;
+  min-width: 60px;
+}
+
+.repeat-toy-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff, #f1f2f6);
+  box-shadow: 0 5px 0 #ced6e0, 0 8px 15px rgba(0, 0, 0, 0.08);
+  gap: 8px;
+  color: #222f3e;
+}
+
+.repeat-toy-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #ced6e0;
+}
+
+.repeat-icon { font-size: 20px; }
+.repeat-label { font-size: 15px; font-weight: 900; }
+
+/* Prompt Hapı (Soru Başlığı) */
+.prompt-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 10px 24px;
+  border-radius: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 2px solid #f1f2f6;
+  margin-bottom: 20px;
+}
+
+.prompt-emoji { font-size: 24px; }
+.prompt-question {
+  font-size: clamp(17px, 2.3vw, 22px);
+  font-weight: 800;
+  color: #222f3e;
+}
+
+/* 3D ARENA DÜZENİ */
+.arena-3d {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr minmax(290px, 350px) 1fr;
+  gap: 20px;
+  align-items: center;
+  position: relative;
+  perspective: 1200px;
+}
+
+/* ==========================================================================
+   3D HEDEF KUTULARI (SOL VE SAĞ PEDESTALLER)
+   ========================================================================== */
+.zone-box {
+  min-height: 340px;
+  border-radius: var(--radius-xl);
+  background: #ffffff;
+  padding: 24px 16px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.2s ease;
+  user-select: none;
+}
+
+/* İnsan Kutusu 3D */
+.human-zone-3d {
+  border: 4px dashed #ff9f9f;
+  background: linear-gradient(180deg, #ffffff 0%, #fff0ee 100%);
+  box-shadow: 0 14px 0 #f8b4ad, 0 20px 30px rgba(239, 107, 86, 0.18);
+}
+
+.human-zone-3d:hover,
+.human-zone-3d.hover-target {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 0 #f8b4ad, 0 30px 40px rgba(239, 107, 86, 0.3);
+  border-style: solid;
+  border-color: #ff6b6b;
+}
+
+/* Yapay Zekâ Kutusu 3D */
+.ai-zone-3d {
+  border: 4px dashed #81ecec;
+  background: linear-gradient(180deg, #ffffff 0%, #e8fbf9 100%);
+  box-shadow: 0 14px 0 #9de3dd, 0 20px 30px rgba(0, 206, 201, 0.18);
+}
+
+.ai-zone-3d:hover,
+.ai-zone-3d.hover-target {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 0 #9de3dd, 0 30px 40px rgba(0, 206, 201, 0.3);
+  border-style: solid;
+  border-color: #00cec9;
+}
+
+.zone-box:active {
+  transform: translateY(6px);
+}
+.human-zone-3d:active { box-shadow: 0 6px 0 #f8b4ad; }
+.ai-zone-3d:active { box-shadow: 0 6px 0 #9de3dd; }
+
+.zone-pedestal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.zone-character-wrap {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.character-human-avatar,
+.character-ai-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border: 3px solid #ffffff;
+}
+
+.zone-status-emoji {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  font-size: 26px;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+  animation: bounceMini 2s infinite ease-in-out;
+}
+@keyframes bounceMini {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.zone-title {
+  display: block;
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+.human-color { color: var(--human-dark); }
+.ai-color { color: var(--ai-dark); }
+
+.zone-desc {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: #636e72;
+  margin-top: 4px;
+}
+
+.zone-press-hint {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 900;
+  background: rgba(0, 0, 0, 0.05);
+  color: #2d3436;
+  letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   3D OYUN KARTI (INTERACTIVE 3D CARD)
+   ========================================================================== */
+.card-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drag-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 900;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  pointer-events: none;
+  opacity: 0.7;
+  animation: pulseArrow 1.5s infinite alternate;
+}
+.left-arrow { left: -30px; color: var(--human-dark); }
+.right-arrow { right: -30px; color: var(--ai-dark); }
+
+@keyframes pulseArrow {
+  0% { transform: translateY(-50%) scale(0.95); opacity: 0.5; }
+  100% { transform: translateY(-50%) scale(1.05); opacity: 0.9; }
+}
+
+.card-3d {
+  width: 100%;
+  max-width: 340px;
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 18px 0 #dcdde1, 0 30px 50px rgba(45, 52, 54, 0.22);
+  border: 5px solid #ffffff;
+  cursor: grab;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.card-3d:active {
+  cursor: grabbing;
+}
+
+/* Kart Parlama Efekti */
+.card-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 5;
+}
+
+.card-inner {
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateZ(30px);
+}
+
+.card-badge-category {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #ff9f43;
+  background: #fff5eb;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+/* 3D Görsel Kutusu */
+.card-image-3d {
+  width: 100%;
+  height: 200px;
+  background: radial-gradient(circle at 50% 50%, #f1f2f6 0%, #dfe4ea 100%);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover .card-image-3d {
+  transform: translateZ(15px) scale(1.02);
+}
+
+.card-image-3d svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.card-title-3d {
+  font-size: clamp(20px, 2.5vw, 24px);
+  font-weight: 900;
+  color: #2d3436;
+  margin: 12px 0 4px;
+}
+
+.card-subtitle-3d {
+  font-size: 14px;
+  font-weight: 700;
+  color: #636e72;
+  margin-bottom: 12px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f1f2f6, #e4e7eb);
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 900;
+  color: #2f3542;
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.hand-anim {
+  animation: handWiggle 1.2s infinite ease-in-out;
+}
+@keyframes handWiggle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Kart Durumları */
+.card-3d.selected {
+  outline: 6px solid #feca57;
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 0 #dcdde1, 0 35px 55px rgba(254, 202, 87, 0.4);
+}
+
+.card-3d.correct {
+  animation: correctBounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-3d.wrong {
+  animation: wrongWobble 0.5s ease;
+}
+
+@keyframes correctBounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15) translateY(-15px) rotate(3deg); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wrongWobble {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-18px) rotate(-4deg); }
+  40% { transform: translateX(18px) rotate(4deg); }
+  60% { transform: translateX(-10px) rotate(-2deg); }
+  80% { transform: translateX(10px) rotate(2deg); }
+}
+
+/* ==========================================================================
+   GERİ BİLDİRİM BALONU (FEEDBACK)
+   ========================================================================== */
+.feedback-3d {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  font-size: clamp(18px, 2.4vw, 23px);
+  font-weight: 900;
+  padding: 8px 24px;
+  border-radius: 26px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.feedback-3d.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feedback-3d.good {
+  background: #d4edda;
+  color: #155724;
+  border: 3px solid #c3e6cb;
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.2);
+}
+
+.feedback-3d.try {
+  background: #fff3cd;
+  color: #856404;
+  border: 3px solid #ffeeba;
+  box-shadow: 0 6px 15px rgba(255, 193, 7, 0.2);
+}
+
+/* ==========================================================================
+   BİTİŞ EKRANI (FINISH)
+   ========================================================================== */
+.trophy-3d {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.trophy-cup {
+  font-size: clamp(75px, 12vw, 110px);
+  display: inline-block;
+  filter: drop-shadow(0 15px 25px rgba(254, 202, 87, 0.5));
+  animation: trophyFloat 3s infinite ease-in-out;
+}
+@keyframes trophyFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(4deg); }
+}
+
+.celebration-stars {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 32px;
+}
+
+.c-star {
+  animation: starPop 1.5s infinite alternate ease-in-out;
+}
+.star-center { font-size: 42px; animation-delay: 0.3s; }
+.star-right { animation-delay: 0.6s; }
+
+@keyframes starPop {
+  0% { transform: scale(0.8) translateY(0); }
+  100% { transform: scale(1.3) translateY(-10px); }
+}
+
+.finish-title {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900;
+  color: #222f3e;
+  margin-bottom: 8px;
+}
+
+.finish-desc {
+  font-size: clamp(16px, 2.5vw, 21px);
+  font-weight: 700;
+  color: #576574;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.score-card-3d {
+  background: linear-gradient(145deg, #ffffff, #f7f9fa);
+  border-radius: var(--radius-lg);
+  padding: 20px 38px;
+  border: 4px solid #feca57;
+  box-shadow: 0 14px 0 #ff9f43, 0 25px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.score-badge {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ee5253;
+  display: block;
+}
+
+.score-number-wrap strong {
+  font-size: clamp(40px, 7vw, 62px);
+  font-weight: 900;
+  color: #10ac84;
+}
+
+.score-applause {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: #576574;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   DUYARLI TASARIM (RESPONSIVE FOR TABLETS & PHONES)
+   ========================================================================== */
+@media (max-width: 860px) {
+  .shell {
+    width: min(100% - 16px, 680px);
+    padding-top: 10px;
+  }
+
+  .screen-card {
+    padding: 20px 14px;
+    min-height: 520px;
+  }
+
+  .arena-3d {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 14px;
+  }
+
+  .card-stage {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .drag-arrow { display: none; }
+
+  .zone-box {
+    min-height: 180px;
+    grid-row: 2;
+    padding: 14px 10px;
+  }
+
+  .zone-character-wrap {
+    width: 65px;
+    height: 65px;
+  }
+
+  .zone-title { font-size: 20px; }
+  .zone-desc { font-size: 11px; }
+
+  .card-image-3d { height: 165px; }
+  .card-title-3d { font-size: 20px; margin: 8px 0 2px; }
+  .card-subtitle-3d { font-size: 13px; min-height: 32px; }
+
+  .floating-mascots {
+    gap: 12px;
+  }
+
+  .mascot-avatar-3d {
+    width: 95px;
+    height: 95px;
+  }
+
+  .vs-bubble {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 460px) {
+  .game-title { font-size: 18px; }
+  .brand-logo-img { height: 36px; max-width: 95px; }
+  .intro-logo-img { height: 50px; max-width: 160px; }
+  .icon-toy-btn { width: 40px; height: 40px; font-size: 18px; }
+  .prompt-question { font-size: 16px; }
+  .zone-title { font-size: 17px; }
+  .zone-press-hint { font-size: 10px; padding: 4px 8px; }
+  .primary-3d-btn { padding: 14px 28px; font-size: 18px; }
+}
+
+/* Erişilebilirlik - Azaltılmış Hareket */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
